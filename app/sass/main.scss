@@ -1,0 +1,48 @@
+@import 'text-only';
+@import 'view-source';
+
+
+.mdl-layout__header-row{
+  padding-left:16px !important;
+}
+
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.mdl-card-wide.mdl-card {
+	width:100%;
+	min-height: auto;
+}
+.mdl-card-wide > .mdl-card__title {
+	@include aspect-ratio(16, 9);
+  background: url('https://placekitten.com/1280/800') center / cover;
+  color: #fff;
+}
+
+#new_logo_card.mdl-card-wide > .mdl-card__title{
+	background: url('http://placehold.it/1280x800') center / cover;
+}
+
+.mdl-card-wide > .mdl-card__title > * {
+	position:absolute;
+	bottom:15px;
+	left:15px;
+}
+.mdl-card-wide > .mdl-card__menu {
+  color: #fff;
+}
