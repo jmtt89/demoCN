@@ -28,6 +28,11 @@ const config = {
     scripts: [
       path.join(temp, 'libs', '*.js'),
       path.join(temp, 'scripts', '*.js')
+    ],
+    images: [
+      path.join(temp, 'images', '*.jpg'),
+      path.join(temp, 'images', '*.png'),
+      path.join(temp, 'images', '*.gif')
     ]
   },
   bowers: path.join(src, 'bower_components'),
@@ -35,6 +40,14 @@ const config = {
   files: [
     path.join(src, '*.html')
   ],
+  images:{
+    src: [
+      path.join(src, 'images/**/*.jpg'),
+      path.join(src, 'images/**/*.png'),
+      path.join(src, 'images/**/*.gif'),
+    ],
+    dest: path.join(dist, 'images')
+  },
   styles: {
     src: path.join(src, 'sass/**/*.scss'),
     dest: path.join(dist, 'styles')

@@ -6,4 +6,12 @@ const copy = () => {
     .pipe(gulp.dest(config.dist));
 };
 
-module.exports = copy;
+const images = () =>{
+	return gulp.src(config.images.src)
+		.pipe(gulp.dest(config.images.dest));
+}
+
+module.exports = {
+	copy: copy,
+	images: images
+};

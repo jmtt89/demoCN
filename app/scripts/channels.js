@@ -1,22 +1,35 @@
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+var logoImage,cardImage,title,primaryColor,accentColor;
 
+function loadData (evt) {
+	if (evt.data && evt.data.url_card) {
+		cardImage = evt.data.url_card
+	}else if(evt.data && evt.data.b64_card){
+		cardImage = evt.data.b64_card
+	}else if(evt.data && evt.data.url_logo){
+		logoImage = evt.data.b64_logo
+	}else if(evt.data && evt.data.b64_logo){
+		logoImage = evt.data.url_logo
+	}else if(evt.data && evt.data.title){
+		title = evt.data.title
+	}else if(evt.data && evt.data.primary_color){
+		primaryColor = evt.data.primary_color
+	}else if(evt.data && evt.data.accent_color){
+		accentColor = evt.data.accent_color
+	}
+
+	channelsCtrl.reload();
+}
 
 var channelsCtrl = {
 	init: function(){
-		var logoImage = getParameterByName('url_logo') || getParameterByName('b64_logo')
-		var cardImage = getParameterByName('url_card') || getParameterByName('b64_card')
-		var title = getParameterByName('title')
-		var primaryColor = getParameterByName('primary_color') || 'purple'
-		var accentColor = getParameterByName('accent_color') || 'pink'
-
+		if (window.addEventListener) {
+			// For standards-compliant web browsers
+			window.addEventListener("message", loadData, false);
+		} else {
+			window.attachEvent("onmessage", loadData);
+		}
+	},
+	reload: function () {
 		if(cardImage){
 			$('#new_logo_card.mdl-card-wide > .mdl-card__title').css("background-image", "url("+cardImage+")")
 		}
@@ -29,11 +42,14 @@ var channelsCtrl = {
 			$('#new_logo_card.mdl-card-wide .mdl-card__title-text').text(title)
 		}
 
-		$('head').append('<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.'+primaryColor+'-'+accentColor+'.min.css">');
+		if(primaryColor && accentColor){
+			$('head').append('<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.'+primaryColor+'-'+accentColor+'.min.css">');
+		}
 	}
 }
 
 channelsCtrl.init();
+
 
 /*
 Colores permitidos:
@@ -42,20 +58,20 @@ Colores permitidos:
 red
 pink
 purple
-deep-purple
+deep_purple
 indigo
 blue
-light-blue
+light_blue
 cyan
 teal
 green
-light-green
+light_green
 lime
 yellow
 amber
 orange
-deep-orange
+deep_orange
 brown
 grey
-blue-grey
+blue_grey
 */
