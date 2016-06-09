@@ -292,128 +292,225 @@
           position: absolute;
           text-align: center;
       }
+
+      #mainForm{
+        margin-top: 50px;
+      }
+
     </style>
 
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+
     <script src="https://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript" charset="UTF-8"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
+    <div class="container-fluid">
+      <div class="row">
 
-    <div class="DevicePreviewPanel OpenMenu">
-        <div class="LeftOptionsPanel">
-            <div class="OptionSection ExtraLargeIcons NoBorder">
-                <div align="center">
-                    <div>
-                      <a class="Smartphone" title="Smartphone (320px)" alt="Smartphone (320px)"  data-device="Smartphone" href="#"><span class="fa fa-fw fa-mobile"></span></a>
-                    </div>
-                    <div>
-                      <a class="SmartphoneLandscape Rotate" title="Smartphone landscape (568px)" alt="Smartphone landscape (568px)" data-device="SmartphoneLandscape" href="#"><span class="fa fa-fw fa-mobile"></span></a>
-                    </div>
-                    <div>
-                      <a class="Tablet" title="Tablet portrait (768px)" alt="Tablet portrait (768px)" data-device="Tablet" href="#"><span class="fa fa-fw fa-tablet"></span></a>
-                    </div>
-                    <div>
-                      <a class="Desktop" title="Desktop and tablet landscape (>=1024px)" alt="Desktop and tablet landscape (>=1024px)" data-device="Desktop" href="#"><span class="fa fa-fw fa-desktop"></span></a>
-                    </div>
+        <div class="col-sm-6">
+
+          <form id="mainForm" class="form-horizontal">
+            <div class="form-group">
+              <label for="view" class="col-sm-4 control-label">View</label>
+              <div class="col-sm-8">
+                <select id="view" class="form-control">
+                  <option value="./channels.html" selected>Channels</option>
+                  <option value="./channel.html">Components</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="channelsSection">
+              <div class="form-group">
+                <label for="titleSelector" class="col-sm-4 control-label">Channel Name</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="titleSelector" placeholder="New Channel">
                 </div>
+              </div>
+              <div class="form-group">
+                <label for="urlCardSelector" class="col-sm-4 control-label">URL Card Image</label>
+                <div class="col-sm-8">
+                  <input type="url" class="form-control" id="urlCardSelector" placeholder="https://image.com/card.jpg">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="fileCardSelector" class="col-sm-4 control-label">File Card Image</label>
+                <div class="col-sm-8">
+                  <input type="file" class="form-control" id="fileCardSelector">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="urlLogoSelector" class="col-sm-4 control-label">URL Logo Image</label>
+                <div class="col-sm-8">
+                  <input type="url" class="form-control" id="urlLogoSelector" placeholder="https://image.com/logo.jpg">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="fileLogoSelector" class="col-sm-4 control-label">File Logo Image</label>
+                <div class="col-sm-8">
+                  <input type="file" class="form-control" id="fileLogoSelector">
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
 
-    <div>
-      <label>View</label>
-      <select id="view">
-        <option value="./channels.html" selected>Channels</option>
-        <option value="./channel.html">Components</option>
-      </select>
-    </div>
-
-    <div align="center" class="PreviewFrameWrapper">
-        <div style="height:100%">
-            <div class="PreviewFrame Black" style="">
-              <iframe id='contents_frame' frameborder='0' src='#' border='0' frameborder='0' marginwidth='0' marginheight='0' style='overflow-x:hidden;background:white;'></iframe>
+            <div id="componentSection">
+              <div class="form-group">
+                <label for="primarySelector" class="col-sm-4 control-label">Primary Color</label>
+                <div class="col-sm-8">
+                  <select id="primarySelector" class="form-control">
+                    <option value="red">red</option>
+                    <option value="pink">pink</option>
+                    <option value="purple" selected>purple</option>
+                    <option value="deep_purple">deep-purple</option>
+                    <option value="indigo">indigo</option>
+                    <option value="blue">blue</option>
+                    <option value="light_blue">light-blue</option>
+                    <option value="cyan">cyan</option>
+                    <option value="teal">teal</option>
+                    <option value="green">green</option>
+                    <option value="light_green">light-green</option>
+                    <option value="lime">lime</option>
+                    <option value="yellow">yellow</option>
+                    <option value="amber">amber</option>
+                    <option value="orange">orange</option>
+                    <option value="deep_orange">deep-orange</option>
+                    <option value="brown">brown</option>
+                    <option value="grey">grey</option>
+                    <option value="blue_grey">blue-grey</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="accentSelector" class="col-sm-4 control-label">Accent Color</label>
+                <div class="col-sm-8">
+                  <select id="accentSelector" class="form-control">
+                    <option value="red">red</option>
+                    <option value="pink">pink</option>
+                    <option value="purple" selected>purple</option>
+                    <option value="deep_purple">deep-purple</option>
+                    <option value="indigo">indigo</option>
+                    <option value="blue">blue</option>
+                    <option value="light_blue">light-blue</option>
+                    <option value="cyan">cyan</option>
+                    <option value="teal">teal</option>
+                    <option value="green">green</option>
+                    <option value="light_green">light-green</option>
+                    <option value="lime">lime</option>
+                    <option value="yellow">yellow</option>
+                    <option value="amber">amber</option>
+                    <option value="orange">orange</option>
+                    <option value="deep_orange">deep-orange</option>
+                    <option value="brown">brown</option>
+                    <option value="grey">grey</option>
+                    <option value="blue_grey">blue-grey</option>
+                  </select>
+                </div>
+              </div>
+              <label class="col-sm-offset-4 col-sm-8">Components</label>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input id="classicInbox" type="checkbox" checked>Classic Inbox
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input id="activityFeed" type="checkbox">Activity Feed
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input id="nearby" type="checkbox">Nearby
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input id="chatInbox" type="checkbox">Chat
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input id="galleryInbox" type="checkbox">Gallery
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
+
+          </form>
+
         </div>
+        
+        <div class="col-sm-6">
+          <div align="center" class="PreviewFrameWrapper">
+              <div style="height:100%">
+                  <div class="PreviewFrame Black" style="">
+                    <iframe id='contents_frame' frameborder='0' src='./channels.html' border='0' frameborder='0' marginwidth='0' marginheight='0' style='overflow-x:hidden;background:white;'></iframe>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <div>
-      <label>Primary Color</label>
-      <select id="primarySelector">
-        <option value="red">red</option>
-        <option value="pink">pink</option>
-        <option value="purple" selected>purple</option>
-        <option value="deep_purple">deep-purple</option>
-        <option value="indigo">indigo</option>
-        <option value="blue">blue</option>
-        <option value="light_blue">light-blue</option>
-        <option value="cyan">cyan</option>
-        <option value="teal">teal</option>
-        <option value="green">green</option>
-        <option value="light_green">light-green</option>
-        <option value="lime">lime</option>
-        <option value="yellow">yellow</option>
-        <option value="amber">amber</option>
-        <option value="orange">orange</option>
-        <option value="deep_orange">deep-orange</option>
-        <option value="brown">brown</option>
-        <option value="grey">grey</option>
-        <option value="blue_grey">blue-grey</option>
-      </select>
 
-      <label>Accent Color</label>
-      <select id="accentSelector">
-        <option value="red">red</option>
-        <option value="pink" selected>pink</option>
-        <option value="purple">purple</option>
-        <option value="deep_purple">deep-purple</option>
-        <option value="indigo">indigo</option>
-        <option value="blue">blue</option>
-        <option value="light_blue">light-blue</option>
-        <option value="cyan">cyan</option>
-        <option value="teal">teal</option>
-        <option value="green">green</option>
-        <option value="light_green">light-green</option>
-        <option value="lime">lime</option>
-        <option value="yellow">yellow</option>
-        <option value="amber">amber</option>
-        <option value="orange">orange</option>
-        <option value="deep_orange">deep-orange</option>
-        <option value="brown">brown</option>
-        <option value="grey">grey</option>
-        <option value="blue_grey">blue-grey</option>
-      </select>
-
-      <label>URL Card Image</label>
-      <input type="url" id="urlCardSelector">
-      <label>File Card Image</label>
-      <input type="file" id="fileCardSelector">
-
-      <label>URL Logo Image</label>
-      <input type="url" id="urlLogoSelector">
-      <label>File Logo Image</label>
-      <input type="file" id="fileLogoSelector">
-
-      <label>Channel Name</label>
-      <input type="text" id="titleSelector">
-    </div>
 
 <script type="text/javascript">
+  $('#channelsSection').show()
+  $('#componentSection').hide()
+
+  /** Modelo del objeto a enviar al iframe **/
+  var varEmulator = {
+    'url_card'      :null, //'Url que apunta a una imagen que se utilizara como imagen de presentacion',
+    'b64_card'      :null, //'Imagen en formato Base64 (cargada desde un imput file), Mutuamente excluyente con url_card',
+    'url_logo'      :null, //'Url que apunta a una imagen que se utilizara como imagen de presentacion',
+    'b64_logo'      :null, //'Imagen en formato Base64 (cargada desde un imput file), Mutuamente excluyente con url_logo',
+    'title'         :null, //'Nombre del Canal',
+    'primary_color' :null, //'ID del Color Seleccionado',
+    'accent_color'  :null, //'ID del Color Seleccionado',
+    'compSelected'  :null, //'ID del componente Seleccionado'
+    'components'    :{
+      'classicInbox'  : true,
+      'activityFeed'  : false,
+      'nearby'        : false,
+      'chatInbox'     : false,
+      'galleryInbox'  : false      
+    },
+  }
 
   $(document).ready(function(){
-    var paramsArray = (window.location.search.substr(1) || '').split('&');
-    window.params = {};
-    for(var i=0; i < paramsArray.length; i++) {
-      var split = paramsArray[i].split('=');
-      window.params[split[0].toLowerCase()] = split[1];
-    }
 
-    var iframeWin = $('#contents_frame')[0].contentWindow;
-    var url = "./channels.html";
-    $('#contents_frame').attr('src', url).load(function(){
-      document.getElementById('contents_frame').style.visibility = 'visible';
-    });
-
-    var device = window.params.device || 'Smartphone';
+    /**  Seccion de configuracion Inicial del preview **/
+    var device = 'Smartphone';
     $('body').addClass(device);
     $('.LeftOptionsPanel a.' + device).addClass('Active');
     $('.LeftOptionsPanel a').each(function(){
@@ -426,25 +523,52 @@
       });
     });
 
-    //**//
+    //* Selecciona el iFrame a mostrar*//
+    //Pasos para Comunicarse con el iframe
+    //Paso 1 - Obtener el contentWindow del iframe
+    var iframeWin = $('#contents_frame')[0].contentWindow;
+
+    // Opcional - Esta linea es para mostrar el contenido del ifrmae solo cuando cargue el contenido
+    // Si se elimina esta linea hay que quitar el estilo del iframe 
+    $('#contents_frame').load(function(){
+      iframeWin.postMessage(varEmulator, "*");
+      document.getElementById('contents_frame').style.visibility = 'visible';
+
+    });
+
 
     $('#view').change(function(){
-      $('#contents_frame').attr('src',$(this).val())
+      var url = $(this).val();
+      if(url == "./channels.html"){
+        $('#channelsSection').show()        
+        $('#componentSection').hide()
+      }else{
+        $('#channelsSection').hide()  
+        $('#componentSection').show()
+      }
+      $('#contents_frame').attr('src',url)
     });
 
     //*  Comunicacion con el Iframe Channels *//
-
+    //Paso 2 - Para enviar data desde la ventana inicial al iframe
+    //se utiliza la funcion postMessage desde el contentWindow obtenido previamente 
     $("#urlCardSelector").change(function(){
       if(this.validity.valid){
-        iframeWin.postMessage({'url_card': $(this).val() }, "*");
+        //postMessage tiene como parametros: 
+        //  Un Objeto que se envia al contenido de contentWindow
+        //  El URL desde el que se envia para CORS, Si se encuentra en el mismo dominio puede enviarse * 
+        varEmulator['url_card'] = $(this).val()
+        iframeWin.postMessage(varEmulator, "*");
       }
     });
 
     $("#fileCardSelector").change(function(){
-
       var reader = new FileReader();
       reader.onload = function (e) {
-        iframeWin.postMessage({'b64_card': e.target.result}, "*");
+
+        //Se repite el paso 2 para cada vez que se desee enviar algo al iframe
+        varEmulator['b64_card'] = e.target.result
+        iframeWin.postMessage(varEmulator, "*");
       };
       // read the image file as a data URL.
       reader.readAsDataURL(this.files[0]);
@@ -452,29 +576,58 @@
     });
 
     $('#urlLogoSelector').blur(function(){
-      iframeWin.postMessage({'url_logo': $(this).val() }, "*");
+      varEmulator['url_logo'] = $(this).val()
+      iframeWin.postMessage(varEmulator, "*");
     })
 
     $('#fileLogoSelector').blur(function(){
       var reader = new FileReader();
       reader.onload = function (e) {
-        iframeWin.postMessage({'b64_logo': e.target.result}, "*");
+        varEmulator['b64_logo'] = e.target.result
+        iframeWin.postMessage(varEmulator, "*");
       };
       // read the image file as a data URL.
       reader.readAsDataURL(this.files[0]);
     })
 
     $('#titleSelector').blur(function(){
-      iframeWin.postMessage({'title': $(this).val() }, "*");
+      varEmulator['title'] = $(this).val()
+      iframeWin.postMessage(varEmulator, "*");
     })
 
+    /**  Components  **/
+
     $('#primarySelector').change(function() {
-      iframeWin.postMessage({'primary_color': $(this).val() }, "*");
+      varEmulator['primary_color'] = $(this).val()
+      iframeWin.postMessage(varEmulator, "*");
     });
 
     $('#accentSelector').change(function() {
-      iframeWin.postMessage({'accent_color': $(this).val() }, "*");
+      varEmulator['accent_color'] = $(this).val()
+      iframeWin.postMessage(varEmulator, "*");
     });
+
+    var components = {
+      'classicInbox'  : true,
+      'activityFeed'  : false,
+      'nearby'        : false,
+      'chatInbox'     : false,
+      'galleryInbox'  : false
+    };
+    $('#classicInbox,#activityFeed,#nearby,#chatInbox,#galleryInbox').change(function(){
+      if($(this).is(":checked")){
+        components[$(this).attr('id')] = true
+        varEmulator['compSelected'] = $(this).attr('id')
+        varEmulator['components'] = components
+        iframeWin.postMessage(varEmulator, "*");
+      }else{
+        components[$(this).attr('id')] = false
+        varEmulator['compSelected'] = null
+        varEmulator['components'] = components
+        iframeWin.postMessage(varEmulator, "*");
+      }
+
+    })
 
   });
 </script>

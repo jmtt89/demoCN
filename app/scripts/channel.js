@@ -1,3 +1,13 @@
+/* Cada vez que se agregue un nuevo componente, debe agregarse aqui tambien el Nombre de este */
+var componentMap = {
+	'classicInbox'	:'Classic Inbox',
+	'activityFeed'	:'Activity Feed',
+	'nearby'		:'Nearby',
+	'chatInbox'		:'Chat',
+	'galleryInbox'	:'Gallery'
+}
+
+
 function fakeMessage (lang) {
 	return {
 		subject  : faker.lorem.words(),
@@ -111,25 +121,41 @@ var messages = [], numMessages = 15, gallery = [], numImages = 20, chats=[], num
 
 **/
 
-var logoImage,cardImage,title,primaryColor,accentColor,components = [];
+var logoImage,cardImage,title,primaryColor,accentColor,compSelected,components = [];
 
 function loadData (evt) {
 	if (evt.data && evt.data.url_card) {
 		cardImage = evt.data.url_card
 	}else if(evt.data && evt.data.b64_card){
 		cardImage = evt.data.b64_card
-	}else if(evt.data && evt.data.url_logo){
-		logoImage = evt.data.b64_logo
-	}else if(evt.data && evt.data.b64_logo){
+	}
+
+	if(evt.data && evt.data.url_logo){
 		logoImage = evt.data.url_logo
-	}else if(evt.data && evt.data.title){
+	}else if(evt.data && evt.data.b64_logo){
+		logoImage = evt.data.b64_logo
+	}
+
+	if(evt.data && evt.data.title){
 		title = evt.data.title
-	}else if(evt.data && evt.data.primary_color){
+	}
+
+	if(evt.data && evt.data.primary_color){
 		primaryColor = evt.data.primary_color
-	}else if(evt.data && evt.data.accent_color){
+	}
+
+	if(evt.data && evt.data.accent_color){
 		accentColor = evt.data.accent_color
-	}else if(evt.data && evt.data.components){
+	}
+
+	if(evt.data && evt.data.components){
 		components = evt.data.components
+	}
+
+	if(evt.data && evt.data.compSelected){
+		compSelected = evt.data.compSelected
+	}else{
+		compSelected = null
 	}
 
 	channelCtrl.reload();
@@ -183,16 +209,13 @@ var channelCtrl = {
 		this.chat.init(language);
 	},
 	reload: function () {
-		if(cardImage){
-			$('#new_logo_card.mdl-card-wide > .mdl-card__title').css("background-image", "url("+cardImage+")")
-		}
-
 		if(logoImage){
-
+			$('#logoIcon').attr('src',logoImage)
+			$('.avatar > img').attr('src',logoImage)
 		}
 
 		if(title){
-			$('#new_logo_card.mdl-card-wide .mdl-card__title-text').text(title)
+			$('#title').text(title)
 		}
 
 		if(primaryColor && accentColor){
@@ -200,15 +223,45 @@ var channelCtrl = {
 		}
 
 		if(components){
-			for (var i = components.length - 1; i >= 0; i--) {
-				var component = components[i]
-				if(component.active){
-					$('a [href=#'+component.id+']').show();
-				}else{
-					$('a [href=#'+component.id+']').hide();
-				}
-			};
+			var layout = document.querySelector('.mdl-js-layout');
+			var tabbar = document.querySelector('.mdl-layout__tab-bar');
+
+			while (tabbar && tabbar.firstChild) {
+			  tabbar.removeChild(tabbar.firstChild);
+			}
+			if(tabbar && layout){
+				window.setTimeout(function(){
+					var someID;
+					$.each( components, function( key, value ) {
+						if(value){
+							if(!someID){
+								someID = key;
+							}
+						    var a = document.createElement('a');
+						    a.href = '#'+key;
+						    a.classList.add('mdl-layout__tab');
+						    a.textContent = componentMap[key] || 'Other';
+						    tabbar.appendChild(a);
+
+							var tabs = document.querySelectorAll('.mdl-layout__tab');
+							var panels = document.querySelectorAll('.mdl-layout__tab-panel');
+							for (var i = 0; i < tabs.length; i++) {
+								new MaterialLayoutTab(tabs[i], tabs, panels, layout.MaterialLayout);
+							}
+					    }
+					});
+
+					window.setTimeout(function(){
+						if(compSelected){
+							$('a[href="#'+compSelected+'"] span').click ();
+						}else{
+							$('a[href="#'+someID+'"] span').click ();
+						}
+					}, 200)
+				}, 200);
+			}
 		}
+
 	},
 	classicInbox:{
 		init: function (language) {
@@ -218,7 +271,7 @@ var channelCtrl = {
 				$('#listMessages').append(
 					$('<li>').addClass('mdl-list__item mdl-list__item--three-line').append(
 						$('<span>').addClass('mdl-list__item-primary-content').append(
-							$('<span>').text(message.subject),
+							$('<span>').addClass('title').text(message.subject),
 							$('<span>').addClass('mdl-list__item-text-body').text(message.text)
 						),
 						$('<span>').addClass('mdl-list__item-secondary-content').append(
@@ -339,4 +392,4 @@ var channelCtrl = {
 }
 
 
-	channelCtrl.init();
+channelCtrl.init();

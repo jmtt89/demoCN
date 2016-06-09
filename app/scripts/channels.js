@@ -5,16 +5,16 @@ function loadData (evt) {
 		cardImage = evt.data.url_card
 	}else if(evt.data && evt.data.b64_card){
 		cardImage = evt.data.b64_card
-	}else if(evt.data && evt.data.url_logo){
-		logoImage = evt.data.b64_logo
-	}else if(evt.data && evt.data.b64_logo){
+	}
+
+	if(evt.data && evt.data.url_logo){
 		logoImage = evt.data.url_logo
-	}else if(evt.data && evt.data.title){
+	}else if(evt.data && evt.data.b64_logo){
+		logoImage = evt.data.b64_logo
+	}
+
+	if(evt.data && evt.data.title){
 		title = evt.data.title
-	}else if(evt.data && evt.data.primary_color){
-		primaryColor = evt.data.primary_color
-	}else if(evt.data && evt.data.accent_color){
-		accentColor = evt.data.accent_color
 	}
 
 	channelsCtrl.reload();
@@ -42,9 +42,6 @@ var channelsCtrl = {
 			$('#new_logo_card.mdl-card-wide .mdl-card__title-text').text(title)
 		}
 
-		if(primaryColor && accentColor){
-			$('head').append('<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.'+primaryColor+'-'+accentColor+'.min.css">');
-		}
 	}
 }
 

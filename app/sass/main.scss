@@ -13,7 +13,16 @@
 
 #listMessages{
   margin: 0px;
+
+  .title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+  }
 }
+
+
 
 /* Feed Activity */
 
@@ -267,9 +276,9 @@ input.textarea {
   }
 
   .card-image > .mdl-card__actions {
-    margin-top: -52px;
-    height: 52px;
-    padding: 16px;
+    margin-top: -40px;
+    height: 40px;
+    padding: 10px;
     background: rgba(0, 0, 0, 0.2);
   }
   .card-image__title {
@@ -376,4 +385,47 @@ input.textarea {
   height: 100%;
   z-index: 9999;
   background: url('../images/page-loader.gif') 50% 50% no-repeat rgb(249,249,249);
+}
+
+.logo{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+
+
+.mdl-layout__tab-bar-button.is-active{
+  display: block;
+}
+
+.mdl-layout__tab-bar{
+  width: calc(100% - 120px);
+  padding: 0 60px 0 60px;
+}
+
+.mdl-layout__header .mdl-layout-icon {
+    position: absolute;
+    left: 40px;
+    top: 16px;
+    height: 32px;
+    width: 32px;
+    overflow: hidden;
+    z-index: 3;
+    display: block;
+}
+
+.mdl-layout-icon + .mdl-layout-title {
+  left: 60px; // 40 + 32 - 16 = 56
+}
+
+@media screen and (max-width: 1024px){
+  .mdl-layout__header .mdl-layout-icon {
+      left: 16px;
+      top: 12px;
+  }
+
+  .mdl-layout-icon + .mdl-layout-title {
+    left: 40px; //16 + 32 - 16 = 32
+  }
 }

@@ -53,10 +53,11 @@
     <!-- Always shows a header, even in smaller screens. -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
-        <div class="mdl-layout-icon"></div>
         <div class="mdl-layout__header-row">
+          <!-- Logo -->
+          <div class="mdl-layout-icon"><img class="logo" id="logoIcon" src="http://lorempixel.com/50/50"></div>
           <!-- Title -->
-          <span id="title" class="mdl-layout-title">Channel Name</span>
+          <span id="title" class="mdl-layout-title mdl-layout__title">Channel Name</span>
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
           <!-- Right aligned menu below button -->
@@ -74,7 +75,7 @@
           </ul>
         </div>
         <!-- Tabs -->
-        <div class="mdl-layout__tab-bar">
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
           <a href="#classicInbox" class="mdl-layout__tab is-active">Classic Inbox</a>
           <a href="#activityFeed" class="mdl-layout__tab">Activity Feed</a>
           <a href="#nearby"       class="mdl-layout__tab">Nearby</a>
