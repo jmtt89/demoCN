@@ -43,6 +43,7 @@ const config = {
   images:{
     src: [
       path.join(src, 'images/**/*.jpg'),
+      path.join(src, 'images/**/*.jpeg'),
       path.join(src, 'images/**/*.png'),
       path.join(src, 'images/**/*.gif'),
     ],

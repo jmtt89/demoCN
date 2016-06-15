@@ -7,12 +7,19 @@ var componentMap = {
 	'galleryInbox'	:'Gallery'
 }
 
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
 
 function fakeMessage (lang) {
 	return {
 		subject  : faker.lorem.words(),
 		text     : faker.lorem.paragraph(),
-		image 	 : faker.random.boolean() ? faker.image.image() : null,
+		image 	 : faker.random.boolean() ? './images/'+getRandomInt(0,20)+'.jpeg' : null,
 		date     : faker.date.recent(),
 		language : lang || 'en_US'
 	};
@@ -21,23 +28,23 @@ function fakeMessage (lang) {
 function itemGallery (lang){
 	return {
 		title 	: faker.lorem.words(),
-		image 	: faker.image.image(),
+		image 	: './images/'+getRandomInt(0,20)+'.jpeg',
 		language : lang || 'en_US'
 	}
 }
 
 function chatMessage (lang){
-	var tmp = faker.random.boolean();
+	var tmp = Math.random() > 0.8;
 	return {
 		response  : faker.random.boolean(),
 		imageMsg	: tmp,
-		content 	: tmp ? faker.image.image() : faker.lorem.sentence(),
+		content 	: tmp ? './images/'+getRandomInt(0,20)+'.jpeg' : faker.lorem.sentence(),
 		date 			: faker.date.recent(),
 		language 	: lang || 'en_US'
 	}
 }
 
-var messages = [], numMessages = 15, gallery = [], numImages = 20, chats=[], numChats = 20;
+var messages = [], numMessages = 20, gallery = [], numImages = 20, chats=[], numChats = 20;
 
 /** 
 ****** DEMO DE Classic Inbox ********

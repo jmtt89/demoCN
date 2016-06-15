@@ -366,15 +366,9 @@ input.textarea {
 }
 
 .join{
-    width: 80%;
     position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    z-index: 1000; 
-    & > *{
-      width: 100%;
-    }
+    bottom: 16px;
+    right: 16px;
 }
 
 .loader {
@@ -429,3 +423,4 @@ input.textarea {
     left: 40px; //16 + 32 - 16 = 32
   }
 }
+
