@@ -3,7 +3,7 @@ import {config, env} from './gulp/gulp.config';
 import {clean, bowerify} from './gulp/utils';
 import {styles, stylesDev} from './gulp/styles';
 import scripts from './gulp/scripts';
-import copy from './gulp/copy';
+import {copy, images} from './gulp/copy';
 import browserSync from 'browser-sync';
 import * as gutil from 'gulp-util';
 
@@ -27,6 +27,7 @@ const watch = () => {
   gulp.watch(config.files).on('change', gulp.series(copy, reload));
   gulp.watch(config.styles.src).on('change', gulp.series(styles, reload));
   gulp.watch(config.scripts.src).on('change', gulp.series(scripts, reload));
+  gulp.watch(config.images.src).on('change', gulp.series(images, reload));
 };
 
 const startServer = () => {
@@ -42,7 +43,8 @@ const compile = gulp.series(
     bowerify,
     gulp.parallel(
       stylesDev,
-      scripts
+      scripts,
+      images
     ),
     copy
   );
