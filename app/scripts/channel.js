@@ -330,7 +330,8 @@ var channelCtrl = {
 	chat:{
 		init: function(language){
 
-			var profileImage = faker.image.avatar();
+			var profileImage = './images/profile-'+getRandomInt(1,5)+'.jpg';
+
 
 
 			var today = new Date();
