@@ -297,6 +297,41 @@
         margin-top: 50px;
       }
 
+      body.dragging, body.dragging * {
+        cursor: move !important;
+      }
+
+      .dragged {
+        position: absolute;
+        opacity: 0.5;
+        z-index: 2000;
+      }
+      
+      .jsgrid-table tr {
+        cursor: pointer; 
+      }
+      
+      .jsgrid-table tr.placeholder {
+        display: block;
+        background: red;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        border: none; 
+      }
+      
+      .jsgrid-table tr.placeholder:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-left-color: red;
+        margin-top: -5px;
+        left: -5px;
+        border-right: none; 
+      }
+
     </style>
 
 
@@ -306,12 +341,15 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid-theme.min.css" />
 
     <script src="https://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript" charset="UTF-8"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
 </head>
 
 <body>
@@ -325,8 +363,9 @@
               <label for="view" class="col-sm-4 control-label">View</label>
               <div class="col-sm-8">
                 <select id="view" class="form-control">
-                  <option value="./channels.html" selected>Channels</option>
+                  <option value="./channels.html">Channels</option>
                   <option value="./channel.html">Components</option>
+                  <option value="./register.html" selected>Register</option>
                 </select>
               </div>
             </div>
@@ -465,6 +504,10 @@
               </div>
             </div>
 
+            <div id="registerSection">
+              <div id="jsGrid"></div>
+            </div>
+
           </form>
 
         </div>
@@ -473,7 +516,7 @@
           <div align="center" class="PreviewFrameWrapper">
               <div style="height:100%">
                   <div class="PreviewFrame Black" style="">
-                    <iframe id='contents_frame' frameborder='0' src='./channels.html' border='0' frameborder='0' marginwidth='0' marginheight='0' style='overflow-x:hidden;background:white;'></iframe>
+                    <iframe id='contents_frame' frameborder='0' src='./register.html' border='0' frameborder='0' marginwidth='0' marginheight='0' style='overflow-x:hidden;background:white;'></iframe>
                   </div>
               </div>
           </div>
@@ -485,7 +528,8 @@
 
 
 <script type="text/javascript">
-  $('#channelsSection').show()
+  $('#channelsSection').hide()
+  $('#registerSection').show()
   $('#componentSection').hide()
 
   /** Modelo del objeto a enviar al iframe **/
@@ -505,7 +549,27 @@
       'chatInbox'     : false,
       'galleryInbox'  : false      
     },
+    'elements':[
+      {label:'Email ', type:'email', value:'username@mail.com'},
+      {label:'Password ', type:'password', value:'demoPassword'},
+      {label:'Phone Number ', type:'tel', value:'+581427894163'},
+    ]
   }
+
+  //Tabla de Register
+  var clients = [
+      { "Label": "Email", "Type": "email", "Enable": true },
+      { "Label": "Password", "Type": "text", "Enable": true },
+      { "Label": "Phone Number", "Type": "tel", "Enable": true }
+  ];
+
+  //Input Types de Tabla de Register
+  var inputTypes = [
+    {Name:"Text", id:"text"},
+    {Name:"Phone", id:"tel"},
+    {Name:"Email", id:"email"},
+    {Name:"Date", id:"date"}
+  ];
 
   $(document).ready(function(){
 
@@ -540,10 +604,16 @@
     $('#view').change(function(){
       var url = $(this).val();
       if(url == "./channels.html"){
-        $('#channelsSection').show()        
+        $('#channelsSection').show()
+        $('#registerSection').hide()
+        $('#componentSection').hide()
+      }else if( url=="./register.html"){
+        $('#channelsSection').hide()
+        $('#registerSection').show()    
         $('#componentSection').hide()
       }else{
-        $('#channelsSection').hide()  
+        $('#channelsSection').hide()
+        $('#registerSection').hide()
         $('#componentSection').show()
       }
       $('#contents_frame').attr('src',url)
@@ -629,8 +699,129 @@
 
     })
 
+    /**  Register  **/
+    $("#jsGrid").jsGrid({
+      width: "100%",
+
+      inserting: true,
+      editing: true,
+      sorting: false,
+      paging: false,
+
+      data: clients,
+
+      fields: [
+          { name: "Label", type: "text", width: 150, validate: "required" },
+          { name: "Type", type: "select", items: inputTypes, valueField: "id", textField: "Name", validate: "required"},
+          { name: "Enable", type: "checkbox", title: "Is Enable", sorting: false },
+          { type: "control" }
+      ],
+
+
+      onItemInserted: function(grid){
+        var tmp = [];
+        for (var i = 0; i < grid.grid.data.length; i++) {
+          var element = grid.grid.data[i];
+          if(element.Enable){
+            tmp.push({'label':element.Label,'type':element.Type,'value':''})
+          }
+        };
+        varEmulator['elements'] = tmp;
+        iframeWin.postMessage(varEmulator, "*");
+      },
+
+
+      onItemUpdated: function(grid){
+        var tmp = [];
+        for (var i = 0; i < grid.grid.data.length; i++) {
+          var element = grid.grid.data[i];
+          if(element.Enable){
+            tmp.push({'label':element.Label,'type':element.Type,'value':''})
+          }
+        };
+        varEmulator['elements'] = tmp;
+        iframeWin.postMessage(varEmulator, "*");
+      },
+
+      onItemDeleted: function(grid){
+        var tmp = [];
+        for (var i = 0; i < grid.grid.data.length; i++) {
+          var element = grid.grid.data[i];
+          if(element.Enable){
+            tmp.push({'label':element.Label,'type':element.Type,'value':''})
+          }
+        };
+        varEmulator['elements'] = tmp;
+        iframeWin.postMessage(varEmulator, "*");
+      }
+
+      // rowClass: function(item, itemIndex) {
+      //     return "client-" + itemIndex;
+      // },
+
+      // onRefreshed: function() {
+      //   var $gridData = $("#jsGrid .jsgrid-table");
+
+      //   $gridData.sortable({
+      //     containerSelector: 'table',
+      //     itemPath: '> tbody',
+      //     itemSelector: 'tr',
+      //     placeholder: '<tr class="placeholder"/>',
+      //     onDrop: function ($item, container, _super, event) {
+      //       $item.removeClass(container.group.options.draggedClass).removeAttr("style")
+      //       $("body").removeClass(container.group.options.bodyClass)
+
+      //       // array of indexes
+      //       console.log(container);
+
+      //       container.items[0]
+      //       container.items[1]
+
+      //       var clientIndexRegExp = /\s+client-(\d+)\s+/;
+      //       var indexes = $.map($gridData.sortable("toArray", { attribute: "class" }), function(classes) {
+      //         return clientIndexRegExp.exec(classes)[1];
+      //       });
+      //       alert("Reordered indexes: " + indexes.join(", "));
+
+      //       // arrays of items
+      //       var items = $.map($gridData.find("tr"), function(row) {
+      //         return $(row).data("JSGridItem");
+      //       });
+      //       console && console.log("Reordered items", items);
+
+
+      //       // $("#jsGrid").jsGrid("refresh");
+      //       // console.log($item)
+      //     }
+      //   });
+      // }
+    });
+
+    // var $gridData = $("#jsGrid .jsgrid-table");
+
+    // $gridData.sortable({
+    //   containerSelector: 'table',
+    //   itemPath: '> tbody',
+    //   itemSelector: 'tr',
+    //   placeholder: '<tr class="placeholder"/>',
+    //   onDrop: function ($item, container, _super, event) {
+    //     $item.removeClass(container.group.options.draggedClass).removeAttr("style")
+    //     $("body").removeClass(container.group.options.bodyClass)
+    //     console.log($item)
+    //   }
+    // });
+
+
   });
+
+
+
+
+
+
 </script>
+
+
 </body>
 
 </html>
