@@ -12,6 +12,12 @@ function makeFormElement (label,type,id,value){
 }
 
 var logoImage,cardImage,title,primaryColor,accentColor,compSelected,components = [];
+var headerProfile = {
+	enable 	: false,
+	image 	: false,
+	align	: 'center',
+	color 	: 'white'
+}
 
 function loadData (evt) {
 	if (evt.data && evt.data.url_card) {
@@ -42,6 +48,26 @@ function loadData (evt) {
 		elements = evt.data.elements;
 	}
 
+	if(evt.data && evt.data.headerProfile.enable){
+		headerProfile.enable = evt.data.headerProfile.enable;
+	}else{
+		headerProfile.enable = false;
+	}
+
+	if(evt.data && evt.data.headerProfile.image){
+		headerProfile.image = evt.data.headerProfile.image;
+	}else{
+		headerProfile.image = false;
+	}
+
+	if(evt.data && evt.data.headerProfile.align){
+		headerProfile.align = evt.data.headerProfile.align;
+	}
+
+	if(evt.data && evt.data.headerProfile.color){
+		headerProfile.color = evt.data.headerProfile.color;
+	}
+
 	registerCtrl.reload();
 }
 
@@ -63,15 +89,15 @@ var registerCtrl = {
 	},
 	reload: function () {
 		if(cardImage){
-			$('#new_logo_card.mdl-card-wide > .mdl-card__title').css("background-image", "url("+cardImage+")")
+			$('#cardBG').attr("src", cardImage)
 		}
 
 		if(logoImage){
-
+			$('#logoIcon').attr("src", logoImage)
 		}
 
 		if(title){
-			$('#new_logo_card.mdl-card-wide .mdl-card__title-text').text(title)
+			$('#title').text(title)
 		}
 
 		if(primaryColor && accentColor){
@@ -86,6 +112,32 @@ var registerCtrl = {
 			};
 			componentHandler.upgradeElements($('.mdl-textfield').get());
 		}
+
+		if(headerProfile.enable){
+			$('#headerStyle_1').show();
+		}else{
+			$('#headerStyle_1').hide();
+		}
+
+		if(headerProfile.image){
+			$('.profileImage').show();
+			$('.extraInfo').removeClass('noImage');
+		}else{
+			$('.profileImage').hide();
+			$('.extraInfo').addClass('noImage');
+		}
+
+		if(headerProfile.align){
+			$('.profileHeader').removeClass('left center right');
+			$('.profileHeader').addClass(headerProfile.align);
+		}
+
+		if(headerProfile.color){
+			$('.extraInfo').removeClass('black white');
+			$('.extraInfo').addClass(headerProfile.color);
+		}
+
+
 	}
 }
 

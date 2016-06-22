@@ -55,18 +55,23 @@
     <div id="register" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
+          <!-- Logo -->
+          <div class="mdl-layout-icon"><img class="logo" id="logoIcon" src="./images/profile-1.jpg"></div>
           <!-- Title -->
-          <span class="mdl-layout-title">Title</span>
+          <span id="title" class="mdl-layout-title mdl-layout__title">Channel Name</span>
         </div>
       </header>
+
       <main class="mdl-layout__content">
         <div class="page-content">
-          <div class="profileHeader">
-            <img class="bgImage" src="./images/0.jpeg">
-            <img class="profileImage" src="./images/profile-1.jpg"/>
-            <span class="profileEmail">username@mail.com</span>
-            <span class="profileMobile">+581245589471</span>
-            <span class="profileDate">05/05/2016</span>
+          <div id="headerStyle_1" class="profileHeader">
+            <img  class="profileImage" src="./images/account.png"/>
+            <img id="cardBG" class="bgImage" src="./images/0.jpeg">
+            <div class="extraInfo">
+              <span class="profileEmail">username@mail.com</span>
+              <span class="profileMobile">+581245589471</span>
+              <span class="profileDate">05/05/2016</span>  
+            </div>
           </div>
           <div class="profileForm">
             <form id="profileEditor" action="#">

@@ -350,6 +350,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/borayazilim/rowsorter/v2.1.1/dist/RowSorter.js"></script>
 </head>
 
 <body>
@@ -505,6 +506,51 @@
             </div>
 
             <div id="registerSection">
+
+              <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                  <div class="checkbox">
+                    <label>
+                      <input id="header_section" type="checkbox" checked>Header Section
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div id="headerOptions">
+                <div class="form-group">
+                  <div class="col-sm-offset-4 col-sm-8">
+                    <div class="checkbox">
+                      <label>
+                        <input id="profile_image" type="checkbox" checked>Profile Image
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="view" class="col-sm-4 control-label">Align</label>
+                  <div class="col-sm-8">
+                    <select id="align" class="form-control">
+                      <option value="left">Left</option>
+                      <option value="center" selected>Center</option>
+                      <option value="right">Right</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="view" class="col-sm-4 control-label">Color</label>
+                  <div class="col-sm-8">
+                    <select id="text_color" class="form-control">
+                      <option value="white" selected>White</option>
+                      <option value="black">Black</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
               <div id="jsGrid"></div>
             </div>
 
@@ -553,7 +599,13 @@
       {label:'Email ', type:'email', value:'username@mail.com'},
       {label:'Password ', type:'password', value:'demoPassword'},
       {label:'Phone Number ', type:'tel', value:'+581427894163'},
-    ]
+    ],
+    'headerProfile':{
+      'enable':true,
+      'image':true,
+      'align':'center',
+      'color':'white'
+    }
   }
 
   //Tabla de Register
@@ -700,6 +752,37 @@
     })
 
     /**  Register  **/
+
+    $('#header_section').change(function(){
+      if($(this).is(":checked")){
+        $('#headerOptions').show();
+        varEmulator['headerProfile']['enable'] = true;
+      }else{
+        $('#headerOptions').hide();
+        varEmulator['headerProfile']['enable'] = false;
+      }
+      iframeWin.postMessage(varEmulator, "*");
+    })
+
+    $('#profile_image').change(function(){
+      if($(this).is(":checked")){
+        varEmulator['headerProfile']['image'] = true;
+      }else{
+        varEmulator['headerProfile']['image'] = false;
+      }
+      iframeWin.postMessage(varEmulator, "*");
+    })
+
+    $('#align').change(function() {
+      varEmulator['headerProfile']['align'] = $(this).val()
+      iframeWin.postMessage(varEmulator, "*");
+    });
+
+    $('#text_color').change(function() {
+      varEmulator['headerProfile']['color'] = $(this).val()
+      iframeWin.postMessage(varEmulator, "*");
+    });
+
     $("#jsGrid").jsGrid({
       width: "100%",
 
@@ -717,11 +800,10 @@
           { type: "control" }
       ],
 
-
-      onItemInserted: function(grid){
+      onItemInserted: function(args){
         var tmp = [];
-        for (var i = 0; i < grid.grid.data.length; i++) {
-          var element = grid.grid.data[i];
+        for (var i = 0; i < args.grid.data.length; i++) {
+          var element = args.grid.data[i];
           if(element.Enable){
             tmp.push({'label':element.Label,'type':element.Type,'value':''})
           }
@@ -731,10 +813,10 @@
       },
 
 
-      onItemUpdated: function(grid){
+      onItemUpdated: function(args){
         var tmp = [];
-        for (var i = 0; i < grid.grid.data.length; i++) {
-          var element = grid.grid.data[i];
+        for (var i = 0; i < args.grid.data.length; i++) {
+          var element = args.grid.data[i];
           if(element.Enable){
             tmp.push({'label':element.Label,'type':element.Type,'value':''})
           }
@@ -743,79 +825,62 @@
         iframeWin.postMessage(varEmulator, "*");
       },
 
-      onItemDeleted: function(grid){
+      onItemDeleted: function(args){
         var tmp = [];
-        for (var i = 0; i < grid.grid.data.length; i++) {
-          var element = grid.grid.data[i];
+        for (var i = 0; i < args.grid.data.length; i++) {
+          var element = args.grid.data[i];
           if(element.Enable){
             tmp.push({'label':element.Label,'type':element.Type,'value':''})
           }
         };
         varEmulator['elements'] = tmp;
         iframeWin.postMessage(varEmulator, "*");
+      },
+
+
+      onRefreshed: function(args) {
+
+        $('#jsGrid .jsgrid-grid-body .jsgrid-table').rowSorter({
+          onDragStart: function(tbody, row, index){
+            console.log('onDragStart: active row\'s index is ' + index);
+          },
+          onDrop: function(tbody, row, new_index, old_index){
+            console.log('onDrop: row moved from ' + old_index + ' to ' + new_index);
+
+            var moveElement = $.extend({},args.grid.data[old_index])
+            console.log(moveElement)
+
+            var tmp = [], newData = [];
+            for (var i = 0; i < args.grid.data.length; i++) {
+              if(i == old_index){ //Si es el indice que se ha movido
+                i++
+              }
+              var element = args.grid.data[i];
+              if(element){
+                if(element.Enable){
+                  tmp.push({'label':element.Label,'type':element.Type,'value':''})
+                }
+                newData.push($.extend({},element))
+              }
+            };
+
+            newData.splice(new_index,0,moveElement);
+            if(moveElement.Enable){
+              tmp.splice(new_index,0,{'label':moveElement.Label,'type':moveElement.Type,'value':''});
+            }
+
+            console.log(newData);
+            console.log(tmp);
+            args.grid.data = newData;
+            varEmulator['elements'] = tmp;
+            iframeWin.postMessage(varEmulator, "*");
+
+
+          }
+        });
       }
-
-      // rowClass: function(item, itemIndex) {
-      //     return "client-" + itemIndex;
-      // },
-
-      // onRefreshed: function() {
-      //   var $gridData = $("#jsGrid .jsgrid-table");
-
-      //   $gridData.sortable({
-      //     containerSelector: 'table',
-      //     itemPath: '> tbody',
-      //     itemSelector: 'tr',
-      //     placeholder: '<tr class="placeholder"/>',
-      //     onDrop: function ($item, container, _super, event) {
-      //       $item.removeClass(container.group.options.draggedClass).removeAttr("style")
-      //       $("body").removeClass(container.group.options.bodyClass)
-
-      //       // array of indexes
-      //       console.log(container);
-
-      //       container.items[0]
-      //       container.items[1]
-
-      //       var clientIndexRegExp = /\s+client-(\d+)\s+/;
-      //       var indexes = $.map($gridData.sortable("toArray", { attribute: "class" }), function(classes) {
-      //         return clientIndexRegExp.exec(classes)[1];
-      //       });
-      //       alert("Reordered indexes: " + indexes.join(", "));
-
-      //       // arrays of items
-      //       var items = $.map($gridData.find("tr"), function(row) {
-      //         return $(row).data("JSGridItem");
-      //       });
-      //       console && console.log("Reordered items", items);
-
-
-      //       // $("#jsGrid").jsGrid("refresh");
-      //       // console.log($item)
-      //     }
-      //   });
-      // }
     });
-
-    // var $gridData = $("#jsGrid .jsgrid-table");
-
-    // $gridData.sortable({
-    //   containerSelector: 'table',
-    //   itemPath: '> tbody',
-    //   itemSelector: 'tr',
-    //   placeholder: '<tr class="placeholder"/>',
-    //   onDrop: function ($item, container, _super, event) {
-    //     $item.removeClass(container.group.options.draggedClass).removeAttr("style")
-    //     $("body").removeClass(container.group.options.bodyClass)
-    //     console.log($item)
-    //   }
-    // });
-
-
   });
-
-
-
 
 
 
